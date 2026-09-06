@@ -1,0 +1,21 @@
+# Postgres cho dev. Chạy: docker compose up -d
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: life-rpg-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: life_rpg
+    ports:
+      - "5432:5432"
+    volumes:
+      - life-rpg-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d life_rpg"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  life-rpg-pgdata:

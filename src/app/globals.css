@@ -1,26 +1,222 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════════
+   Design token — lấy nguyên từ "Life RPG.dc.html".
+   Giá trị gốc là oklch, giữ nguyên chứ không quy đổi sang hex: gamut rộng
+   hơn và các sắc độ trong cùng một hue giữ được quan hệ với nhau.
+
+   Biến thô định nghĩa ở :root / [data-theme="dark"]; @theme inline bên dưới
+   ánh xạ chúng thành utility Tailwind (bg-surface, text-ink, shadow-e1…),
+   nên khi đổi theme utility tự đổi theo mà không cần variant.
+   ═══════════════════════════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: oklch(0.975 0.005 285);
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.965 0.007 285);
+  --surface-3: oklch(0.94 0.009 285);
+  --line: oklch(0.905 0.008 285);
+  --line-2: oklch(0.85 0.01 285);
+  --ink: oklch(0.24 0.02 285);
+  --ink-2: oklch(0.5 0.017 285);
+  --ink-3: oklch(0.63 0.014 285);
+  --primary: oklch(0.53 0.2 285);
+  --primary-hi: oklch(0.47 0.21 285);
+  --primary-ink: oklch(1 0 0);
+  --primary-soft: oklch(0.95 0.035 285);
+  --accent: oklch(0.74 0.16 78);
+  --accent-2: oklch(0.66 0.17 60);
+  --accent-ink: oklch(0.42 0.12 68);
+  --accent-soft: oklch(0.96 0.05 85);
+  --flame: oklch(0.64 0.2 40);
+  --flame-soft: oklch(0.96 0.045 45);
+  --success: oklch(0.6 0.15 155);
+  --success-soft: oklch(0.95 0.05 155);
+  --danger: oklch(0.58 0.2 25);
+
+  /* difficulty: easy / medium / hard / epic */
+  --e-bg: oklch(0.95 0.05 165);
+  --e-fg: oklch(0.45 0.11 165);
+  --m-bg: oklch(0.95 0.045 245);
+  --m-fg: oklch(0.46 0.14 255);
+  --h-bg: oklch(0.95 0.06 55);
+  --h-fg: oklch(0.5 0.15 45);
+  --p-bg: oklch(0.94 0.06 320);
+  --p-fg: oklch(0.47 0.22 320);
+  --p-glow: oklch(0.6 0.25 320);
+
+  --sh1: 0 1px 2px oklch(0.3 0.05 285 / 0.06), 0 1px 1px oklch(0.3 0.05 285 / 0.04);
+  --sh2: 0 2px 4px oklch(0.3 0.05 285 / 0.05), 0 8px 20px oklch(0.3 0.05 285 / 0.07);
+  --sh3: 0 24px 60px oklch(0.25 0.06 285 / 0.22), 0 4px 12px oklch(0.25 0.06 285 / 0.1);
+  --glow-accent: 0 10px 34px oklch(0.74 0.16 78 / 0.22);
+  --glow-xp: 0 0 14px oklch(0.74 0.16 78 / 0.5);
+  --glow-epic: 0 0 0 1px var(--p-glow), 0 0 12px oklch(0.6 0.25 320 / 0.35);
+}
+
+[data-theme="dark"] {
+  --bg: oklch(0.165 0.012 285);
+  --surface: oklch(0.212 0.014 285);
+  --surface-2: oklch(0.25 0.016 285);
+  --surface-3: oklch(0.29 0.018 285);
+  --line: oklch(0.3 0.016 285);
+  --line-2: oklch(0.37 0.02 285);
+  --ink: oklch(0.965 0.005 285);
+  --ink-2: oklch(0.755 0.014 285);
+  --ink-3: oklch(0.6 0.014 285);
+  --primary: oklch(0.68 0.17 285);
+  --primary-hi: oklch(0.74 0.16 285);
+  --primary-ink: oklch(0.17 0.03 285);
+  --primary-soft: oklch(0.3 0.07 285);
+  --accent: oklch(0.83 0.15 82);
+  --accent-2: oklch(0.76 0.16 66);
+  --accent-ink: oklch(0.88 0.13 85);
+  --accent-soft: oklch(0.31 0.06 80);
+  --flame: oklch(0.74 0.18 45);
+  --flame-soft: oklch(0.31 0.07 45);
+  --success: oklch(0.75 0.15 155);
+  --success-soft: oklch(0.29 0.06 155);
+  --danger: oklch(0.7 0.18 25);
+
+  --e-bg: oklch(0.3 0.06 165);
+  --e-fg: oklch(0.85 0.13 165);
+  --m-bg: oklch(0.3 0.06 245);
+  --m-fg: oklch(0.83 0.11 245);
+  --h-bg: oklch(0.31 0.07 55);
+  --h-fg: oklch(0.86 0.13 60);
+  --p-bg: oklch(0.31 0.09 320);
+  --p-fg: oklch(0.85 0.15 320);
+  --p-glow: oklch(0.7 0.25 320);
+
+  --sh1: 0 1px 2px oklch(0 0 0 / 0.3);
+  --sh2: 0 2px 6px oklch(0 0 0 / 0.3), 0 10px 24px oklch(0 0 0 / 0.28);
+  --sh3: 0 28px 70px oklch(0 0 0 / 0.6), 0 4px 14px oklch(0 0 0 / 0.4);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-primary: var(--primary);
+  --color-primary-hi: var(--primary-hi);
+  --color-primary-ink: var(--primary-ink);
+  --color-primary-soft: var(--primary-soft);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-flame: var(--flame);
+  --color-flame-soft: var(--flame-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+
+  --color-easy-bg: var(--e-bg);
+  --color-easy-fg: var(--e-fg);
+  --color-medium-bg: var(--m-bg);
+  --color-medium-fg: var(--m-fg);
+  --color-hard-bg: var(--h-bg);
+  --color-hard-fg: var(--h-fg);
+  --color-epic-bg: var(--p-bg);
+  --color-epic-fg: var(--p-fg);
+
+  --shadow-e1: var(--sh1);
+  --shadow-e2: var(--sh2);
+  --shadow-e3: var(--sh3);
+  --shadow-accent-glow: var(--glow-accent);
+  --shadow-epic: var(--glow-epic);
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-manrope), sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --animate-float-up: floatUp 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pop-in: popIn 0.26s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  --animate-modal-in: modalIn 0.42s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  --animate-fade-in: fadeIn 0.22s ease both;
+  --animate-flame: flame 2.4s ease-in-out infinite;
+  --animate-ring-pulse: ringPulse 2.2s ease-out infinite;
+  --animate-shimmer: shimmer 3.4s linear infinite;
+  --animate-rise: rise 0.4s ease both;
+  --animate-toast-in: toastIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-spin-slow: spinSlow 7s linear infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(6px) scale(0.9); }
+  18% { opacity: 1; transform: translateY(-4px) scale(1.05); }
+  100% { opacity: 0; transform: translateY(-52px) scale(1); }
+}
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.9) translateY(12px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes modalIn {
+  0% { opacity: 0; transform: scale(0.86); }
+  60% { transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes confetti {
+  0% { opacity: 1; transform: translate3d(0, -10vh, 0) rotate(0deg); }
+  100% { opacity: 0.9; transform: translate3d(var(--dx), 105vh, 0) rotate(var(--rot)); }
+}
+@keyframes flame {
+  0%, 100% { transform: scale(1) rotate(-2deg); }
+  50% { transform: scale(1.13) rotate(2deg); }
+}
+@keyframes ringPulse {
+  0% { box-shadow: 0 0 0 0 oklch(0.6 0.25 320 / 0.5); }
+  70% { box-shadow: 0 0 0 26px oklch(0.6 0.25 320 / 0); }
+  100% { box-shadow: 0 0 0 0 oklch(0.6 0.25 320 / 0); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+
+@layer base {
+  html {
+    /* Ngăn nháy theme sai màu trong khoảnh khắc trước khi script chạy. */
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    color-scheme: dark;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  button {
+    cursor: pointer;
+  }
+  /* Số liệu tiến độ luôn dùng chữ số đều bề rộng để không nhảy khi đếm. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
